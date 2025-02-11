@@ -1,0 +1,31 @@
+def round_ans (val):
+    # rounds temperature to the nearest degreeeeee"
+    var_rounded = (val * 2 + 1)// 2
+    return "{:.0f}".format(var_rounded)
+
+def to_celcius(to_convert):
+    # Converts F to c
+    answer = (to_convert - 32) * 5/9
+    return round_ans(answer)
+
+
+def to_farenheight(to_convert):
+    # converts c to f
+    answer = to_convert * 1.8 + 32
+    return round_ans(answer)
+# main routine and testing
+to_c_test = [0, 100, -459]
+to_f_test = [0, 100, -273]
+
+
+
+for item in to_f_test:
+    ans = to_farenheight(item)
+    print("{item} C is {ans} F")
+print ()
+
+
+
+for item in to_c_test:
+    ans = to_celcius(item)
+    print("{item} F is {ans} C")
