@@ -1,0 +1,62 @@
+from tkinter import *
+
+
+class Converter:
+    """"""
+    "Temperature Converter tool"
+    """"""
+
+    def __init__(self):
+        """Temperature Convertor GUI"""
+
+        self.temp_frame = Frame(padx=10, pady=10)
+        self.temp_frame.grid()
+
+        self.to_help_button = Button(self.temp_frame,
+                                     text="To Help",
+                                     bg="#E16A54",
+                                     fg="#ffffff",
+                                     font=("Times New Roman", "12", "bold"), width=12,
+                                     command=self.to_help)
+        self.to_help_button.grid(row=1, padx=5, pady=5)
+
+    def to_help(self):
+        DisplayHelp()
+
+
+class DisplayHelp:
+
+    def __init__(self):
+        # setup dialogue box/ colour
+        background = "#FFE6CC"
+        self.help_box = Toplevel()
+
+        self.help_frame = Frame(self.help_box, width=300,
+                                height=200,
+                                bg=background)
+        self.help_frame.grid()
+
+        self.help_heading_label = Label(self.help_frame,
+                                        text="help/info",
+                                        font=("Times New Roman", "14", "bold"))
+
+        self.help_heading_label.grid(row=0)
+
+        self.help_text_label = Label(self.help_frame,
+                                     text="help text here", wraplength=350,
+                                     justify="left")
+        self.help_text_label.grid(row=1, padx=10)
+
+        self.dismiss_button = Button(self.help_frame,
+                                     font=("Times New Roman", "14", "bold"),
+                                     text="Dismiss", bg="#CC6600",
+                                     fg="#FFFFFF")
+        self.dismiss_button.grid(row=2,padx=10, pady=10)
+
+
+# main_routine goes here
+if __name__ == "__main__":
+    root = Tk()
+    root.title("Temperature Converter")
+    Converter()
+    root.mainloop()
