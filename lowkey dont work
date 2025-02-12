@@ -1,6 +1,7 @@
 from calendar import error
 from tkinter import *
 import all_constants as c
+import conv_round as cr
 
 
 class Converter():
@@ -11,6 +12,8 @@ class Converter():
     # This part of the code is responsible for the title of the program (Temperature Converter)
     def __init__(self):
         """Temperature Convertor GUI"""
+
+        self.all_calculations_list = []
         self.temp_frame = Frame(padx=10, pady=10)
         self.temp_frame.grid()
         self.temp_heading = Label(self.temp_frame,
@@ -61,11 +64,11 @@ class Converter():
 
     def check_temp(self, min_temp):
         # this codes for valid in the range temp, shows whether its workable or not/ inputs error
-        print("min temp: ", min_temp)
+
 
         # retrieve temp to be converted
         to_convert = self.temp_entry.get()
-        print("to convert", to_convert)
+
         # reset label after empty error
         self.answer_error.config(fg="#004C99")
         self.temp_entry.config(bg="#FFFFFF")
@@ -80,6 +83,7 @@ class Converter():
                 self.convert(min_temp, to_convert)
             else:
                 has_errors = "yes"
+                error = "too low"
         except ValueError:
             has_errors = "yes"
 
@@ -89,10 +93,20 @@ class Converter():
             self.temp_entry.delete(0, END)
 
     def convert(self, min_temp, to_convert):
+    #converts temperature and updates answer label, store/ export
         if min_temp == c.ABS_ZERO_CELCIUS:
-            self.answer_error.config(text=f"converting {to_convert} C to F")
+            answer = cr.to_farenheight(to_convert)
+            answer_statement = f"{to_convert} C is {answer} F"
+
         else:
-            self.answer_error.config(text=f"converting {to_convert} F to C")
+            answer = cr.to_celcius(to_convert)
+            answer_statement = f"{to_convert} F is {answer} C"
+
+        self.to_history_button.config(state=NORMAL)
+
+        self.answer_error.config(text = answer_statement)
+        self.all_calculations_list.append(answer)
+        print(self.all_calculations_list)
 
 
 # main_routine goes here
