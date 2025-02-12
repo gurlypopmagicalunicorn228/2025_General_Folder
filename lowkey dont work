@@ -1,7 +1,7 @@
 from calendar import error
 from tkinter import *
 import all_constants as c
-import conv_round as cr
+import conv_rounding as cr
 
 
 class Converter():
@@ -44,8 +44,8 @@ class Converter():
 
         # Button list  (text|colour|command||row|column)
         button_detail_list = [
-            ["To Celcius", "#7C444F", lambda: self.check_temp(c.ABS_ZERO_FARENHEIGHT), 0, 0],
-            ["To Farenheight", "#9F5255", lambda: self.check_temp(c.ABS_ZERO_CELCIUS), 0, 1],
+            ["To Celsius", "#7C444F", lambda: self.check_temp(c.ABS_ZERO_FARENHEIGHT), 0, 0],
+            ["To Fahrenheit", "#9F5255", lambda: self.check_temp(c.ABS_ZERO_CELCIUS), 0, 1],
             ["Help/Info", "#F39E60", '', 1, 0],
             ["History/Export", "#E16A54", '', 1, 1]
         ]
@@ -60,11 +60,11 @@ class Converter():
             self.button_ref_list.append(self.make_button)
 
         # history/export button would be disabled at the start of calculations
-        self.to_history_button = self.button_ref_list[3].config(state=DISABLED)
+        self.to_history_button = self.button_ref_list[3]
+        self.to_history_button.config(state=DISABLED)
 
     def check_temp(self, min_temp):
         # this codes for valid in the range temp, shows whether its workable or not/ inputs error
-
 
         # retrieve temp to be converted
         to_convert = self.temp_entry.get()
@@ -93,7 +93,7 @@ class Converter():
             self.temp_entry.delete(0, END)
 
     def convert(self, min_temp, to_convert):
-    #converts temperature and updates answer label, store/ export
+        # converts temperature and updates answer label, store/ export
         if min_temp == c.ABS_ZERO_CELCIUS:
             answer = cr.to_farenheight(to_convert)
             answer_statement = f"{to_convert} C is {answer} F"
@@ -104,7 +104,7 @@ class Converter():
 
         self.to_history_button.config(state=NORMAL)
 
-        self.answer_error.config(text = answer_statement)
+        self.answer_error.config(text=answer_statement)
         self.all_calculations_list.append(answer)
         print(self.all_calculations_list)
 
