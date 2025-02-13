@@ -1,0 +1,87 @@
+from tkinter import *
+from functools import partial # to prevent unwanted windows
+
+
+class Converter:
+    """"""
+    "Temperature Converter tool"
+    """"""
+
+    def __init__(self):
+        """Temperature Convertor GUI"""
+
+        self.temp_frame = Frame(padx=10, pady=10)
+        self.temp_frame.grid()
+
+        self.to_help_button = Button(self.temp_frame,
+                                     text="To Help",
+                                     bg="#E16A54",
+                                     fg="#ffffff",
+                                     font=("Times New Roman", "12", "bold"), width=12,
+                                     command=self.to_help)
+        self.to_help_button.grid(row=1, padx=5, pady=5)
+
+    def to_help(self):
+        # displays the help button
+        DisplayHelp(self)
+
+
+class DisplayHelp:
+
+    def __init__(self, partner):
+        # setup dialogue box/ colour
+        background = "#FFE6CC"
+        self.help_box = Toplevel()
+        # disable help button after pressed
+        partner.to_help_button.config(state=DISABLED)
+        # if user presses cross at the top, closes help, releases help button
+        self.help_box.protocol("WM_DELETE_WINDOW",
+                               partial(self.close_help, partner))
+
+        self.help_frame = Frame(self.help_box, width=300,
+                                height=200)
+        self.help_frame.grid()
+
+        self.help_heading_label = Label(self.help_frame,
+                                        text="help/info",
+                                        font=("Times New Roman", "14", "bold"))
+
+        self.help_heading_label.grid(row=0)
+        help_text = "To use program, enter the temperature" \
+                    "you wish to convert to (c/f)\n\n" \
+                    "min temp c is -273" \
+                    "min temp f is -459" \
+                    "less than min temp will show error message" \
+                    "to see history press history button"
+
+        self.help_text_label = Label(self.help_frame,
+                                     text=help_text, wraplength=350,
+                                     justify="left")
+        self.help_text_label.grid(row=1, padx=10)
+
+        self.dismiss_button = Button(self.help_frame,
+                                     font=("Times New Roman", "14", "bold"),
+                                     text="Dismiss", bg="#CC6600",
+                                     fg="#FFFFFF", command=partial(self.close_help, partner))
+        self.dismiss_button.grid(row=2,padx=10, pady=10)
+
+        # colour of the background, no buttons
+
+        recolour_list = [self.help_frame, self.help_heading_label,
+                         self.help_text_label]
+        for item in recolour_list:
+            item.config(bg=background)
+    def close_help(self, partner):
+        # put the button back to normal
+        partner.to_help_button.config(state=NORMAL)
+        self.help_box.destroy()
+
+
+
+
+# main_routine goes here
+if __name__ == "__main__":
+    root = Tk()
+    root.title("Temperature Converter")
+    Converter()
+    root.mainloop()
