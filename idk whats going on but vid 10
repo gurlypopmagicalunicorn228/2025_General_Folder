@@ -1,0 +1,96 @@
+from tkinter import *
+from functools import partial  # to prevent unwanted windows
+
+
+class Converter:
+    """"""
+    "Temperature Converter tool"
+    """"""
+
+    def __init__(self):
+        """Temperature Convertor GUI"""
+
+        self.temp_frame = Frame(padx=10, pady=10)
+        self.temp_frame.grid()
+
+        self.to_history_button = Button(self.temp_frame,
+                                        text="History/Export",
+                                        bg="#E16A54",
+                                        fg="#ffffff",
+                                        font=("Times New Roman", "12", "bold"), width=12,
+                                        command=self.to_history)
+        self.to_history_button.grid(row=1, padx=5, pady=5)
+
+    def to_history(self):
+        # displays the history button
+        HistoryExport(self)
+
+
+class HistoryExport:
+
+    def __init__(self, partner):
+        # setup dialogue box/ colour
+        background = "#FFE6CC"
+        self.history_box = Toplevel()
+        # disable history button after pressed
+        partner.to_history_button.config(state=DISABLED)
+        # if user presses cross at the top, closes history, releases history button
+        self.history_box.protocol("WM_DELETE_WINDOW",
+                                  partial(self.close_history, partner))
+
+        self.history_frame = Frame(self.history_box, width=300,
+                                   height=200)
+        self.history_frame.grid()
+
+        self.history_heading_label = Label(self.history_frame,
+                                           text="history/export",
+                                           font=("Times New Roman", "14", "bold"))
+
+        self.history_heading_label.grid(row=0)
+        # str for long labels
+        history_text = "Below are your recent" \
+                       " temperature""calculations." \
+                       " all calculations are" \
+                       "shown to the nearest degree"
+        export_instructions = " to export please press this " \
+                              "button"
+        calculations = ""
+
+        # label list (label txt| format| bg)
+        history_labels_list = [
+            ["History/Export", ("Times New Roman", "16", "bold"), None],
+            [history_text, ("Times New Roman", "11", None)],
+            ["calculations_list", ("Times New Roman", "14", background)],
+            [export_instructions, ("Times New Roman", "11"), None]
+        ]
+
+        self.history_text_label = Label(self.history_frame,
+                                        text=history_text, wraplength=350,
+                                        justify="left")
+        self.history_text_label.grid(row=1, padx=10)
+
+        self.dismiss_button = Button(self.history_frame,
+                                     font=("Times New Roman", "14", "bold"),
+                                     text="Dismiss", bg="#CC6600",
+                                     fg="#FFFFFF", command=partial(self.close_history, partner))
+        self.dismiss_button.grid(row=2, padx=10, pady=10)
+
+        # colour of the background, no buttons
+
+        recolour_list = [self.history_frame, self.history_heading_label,
+                         self.history_text_label]
+        for item in recolour_list:
+            item.config(bg=background)
+
+    def close_history(self, partner):
+        # put the button back to normal
+        partner.to_history_button.config(state=NORMAL)
+        self.history_box.destroy()
+
+
+# main_routine goes here
+if __name__ == "__main__":
+    root = Tk()
+    root.title("Temperature Converter")
+    Converter()
+    root.mainloop()
