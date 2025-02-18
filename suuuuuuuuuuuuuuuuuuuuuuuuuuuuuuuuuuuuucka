@@ -27,13 +27,18 @@ class Converter:
 
 
 class HistoryExport:
-
+    """
+    display history dialogue box
+    """
     def __init__(self, partner):
         # setup dialogue box/ colour
-        background = "#FFE6CC"
+        background = "#D5E8D4"
+
         self.history_box = Toplevel()
+
         # disable history button after pressed
         partner.to_history_button.config(state=DISABLED)
+
         # if user presses cross at the top, closes history, releases history button
         self.history_box.protocol("WM_DELETE_WINDOW",
                                   partial(self.close_history, partner))
@@ -47,10 +52,11 @@ class HistoryExport:
                                            font=("Times New Roman", "14", "bold"))
 
         self.history_heading_label.grid(row=0)
+
         # str for long labels
         history_text = "Below are your recent" \
                        " temperature calculations." \
-                       " all calculations are" \
+                       " all calculations are " \
                        "shown to the nearest degree"
         export_instructions = " to export please press this " \
                               "button"
