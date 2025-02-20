@@ -1,0 +1,14 @@
+all_calculations = ['10.0 F is -12C', '20.0 F is -7C',
+                              '30 F is -1 C', '40.0 F is 4C',
+                              '50F is 10C', '60.0 F is 16C']
+newest_first = list(reversed(all_calculations))
+
+print("---OLDEST TO NEWEST---")
+for item in all_calculations:
+    print(item)
+
+print()
+
+print('===MOST RECENT CALCULATIONS===')
+for item in newest_first:
+    print(item)
