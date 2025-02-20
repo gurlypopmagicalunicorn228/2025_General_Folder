@@ -2,6 +2,7 @@ from tkinter import *
 from functools import partial  # to prevent unwanted windows
 import all_constants as c
 
+
 class Converter:
     """"""
     "Temperature Converter tool"
@@ -32,9 +33,6 @@ class HistoryExport:
     """
 
     def __init__(self, partner, calculations):
-        # setup dialogue box/ colour
-        green_back = "#D5E8D4"
-        peach_back = "#ffe6cc"
 
         self.history_box = Toplevel()
 
@@ -49,17 +47,16 @@ class HistoryExport:
         self.history_frame.grid()
 
         # background and calculations colours
-        if len(calculations)<= c.MAX_CALCS:
+        if len(calculations) <= c.MAX_CALCS:
             calc_back = "#d5e8d4"
             calc_amount = "all_your"
         else:
             calc_back = "#ffe6cc"
             calc_amount = (f"your recent calculations - "
                            f"showing {c.MAX_CALC} / {len(calculations)}")
-                           
 
         # str for long labels
-        recent_intro_txt = ("Below are your recent"
+        recent_intro_txt = (f"Below are {calc_amount}"
                             " temperature calculations."
                             " all calculations are "
                             "shown to the nearest degree")
@@ -72,7 +69,7 @@ class HistoryExport:
         history_labels_list = [
             ["History/Export", ("Times New Roman", "16", "bold"), None],
             [recent_intro_txt, ("Times New Roman", "11"), None],
-            ["calculations_list", ("Times New Roman", "14"), green_back],
+            ["calculations_list", ("Times New Roman", "14"), calc_back],
             [export_instructions_txt, ("Times New Roman", "11"), None]
         ]
 
@@ -114,8 +111,6 @@ class HistoryExport:
                                         text='history_text', wraplength=350,
                                         justify="left")
         self.history_text_label.grid(row=1, padx=10)
-
-
 
     def close_history(self, partner):
         # put the button back to normal
