@@ -11,6 +11,10 @@ class Converter:
     def __init__(self):
         """Temperature Convertor GUI"""
 
+        self.all_calculations_list = ['10.0 F is -12C', '20.0 F is -7C',
+                                      '30 F is -1 C', '40.0 F is 4C',
+                                      '50F is 10C', '60.0 F is 16C']
+
         self.temp_frame = Frame(padx=10, pady=10)
         self.temp_frame.grid()
 
@@ -53,7 +57,23 @@ class HistoryExport:
         else:
             calc_back = "#ffe6cc"
             calc_amount = (f"your recent calculations - "
-                           f"showing {c.MAX_CALC} / {len(calculations)}")
+                           f"showing {c.MAX_CALCS} / {len(calculations)}")
+
+        # str for calculations list
+        newest_first_string = ''
+        newest_first_list = list(reversed(calculations))
+
+        if len(newest_first_list) <= c.MAX_CALCS:
+
+            for item in newest_first_list[:-1]:
+                newest_first_string += item + "\n"
+            newest_first_string += newest_first_list[-1]
+
+        # if there is mor than 5 calculations
+        else:
+            for item in newest_first_list[:c.MAX_CALCS - 1]:
+                newest_first_string += item + "\n"
+            newest_first_string += newest_first_list[c.MAX_CALCS - 1]
 
         # str for long labels
         recent_intro_txt = (f"Below are {calc_amount}"
@@ -69,7 +89,7 @@ class HistoryExport:
         history_labels_list = [
             ["History/Export", ("Times New Roman", "16", "bold"), None],
             [recent_intro_txt, ("Times New Roman", "11"), None],
-            ["calculations_list", ("Times New Roman", "14"), calc_back],
+            [newest_first_string, ("Times New Roman", "14"), calc_back],
             [export_instructions_txt, ("Times New Roman", "11"), None]
         ]
 
