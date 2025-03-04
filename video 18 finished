@@ -1,0 +1,112 @@
+from tkinter import *
+from functools import partial  # to prevent unwanted windows
+
+
+class StartGame:
+    """
+    Initial game interface - asks user how many rounds they want to play
+    """
+
+    def __init__(self):
+        # gets number of rounds from the user
+        self.start_frame = Frame(padx=10, pady=10)
+        self.start_frame.grid()
+
+        self.play_button = Button(self.start_frame,
+                                  font=("Arial", "16", "bold"),
+                                  text="Play", bg="#CC6600",
+                                  fg="#FFFFFF", width=10, command=self.check_rounds)
+        self.play_button.grid(row=0, column=2)
+
+    def check_rounds(self):
+        """
+        checks if user entered more than 1 rounds
+        """
+        Play(5)
+        # hide root window
+        root.withdraw()
+
+
+class Play:
+    """
+    interface for colour quest
+    """
+
+    def __init__(self, how_many):
+        self.play_box = Toplevel()
+
+        self.game_frame = Frame(self.play_box)
+        self.game_frame.grid(padx=10, pady=10)
+
+        # body font for most labels
+        body_font = ("Arial", "12")
+
+        # list for label details
+        play_labels_list = [
+            ["Round # of #", ("Arial", "16", "bold"), None, 0],
+            ["Score to Beat: #", body_font, "#FFF2CC", 1],
+            ["choose colour below. good luck.", body_font, "#d5e8d4", 2],
+            ['You chose, results', body_font, "#d5e8d4", 4]
+        ]
+
+        play_labels_ref = []
+        for item in play_labels_list:
+            self.make_label = Label(self.game_frame, text=item[0], font=item[1],
+                                    bg=item[2], wraplength=300, justify="left")
+            self.make_label.grid(row=item[3], pady=10, padx=10)
+
+            play_labels_ref.append(item)
+
+            # retrieve labels for later use
+            self.heading_label = play_labels_list[0]
+            self.target_label = play_labels_list[1]
+            self.results_label = play_labels_list[3]
+
+            # set up colour buttons
+
+            self.colour_frame = Frame(self.game_frame)
+            self.colour_frame.grid(row=3)
+
+            # create 4 buttons 2 by 2
+
+        for item in range(0,4):
+            self.colour_button = Button(self.colour_frame, font=("Arial", "12"),
+                                        text="Colour Frame", width=15)
+            self.colour_button.grid(row=item // 2,
+                                    column=item % 2,
+                                    padx=5, pady=5)
+        # frame to hold hints and stats
+        self.hints_stats_frame = Frame(self.game_frame)
+        self.hints_stats_frame.grid(row=6)
+
+        # list for buttons :( (Frame| txt| bg| command| width| row| column)
+        control_button_list = [
+            [self.game_frame, "Next Round", "#0057d8", "", 21, 5, None],
+            [self.hints_stats_frame, "Hints", "#ff8000", "", 10, 0, 0],
+            [self.hints_stats_frame, "Stats", "#333333", "", 10, 0, 1],
+            [self.game_frame, "End", "#990000", self.close_play, 21, 7, None]
+        ]
+
+        # create buttons and add to list
+        control_ref_list = []
+        for item in control_button_list:
+            make_control_button = Button(item[0], text=item[1], bg=item[2],
+                                         command=item[3], font=("Arial", "16", "bold"),
+                                         fg="#ffffff", width=item[4])
+            make_control_button.grid(row=item[5], column=item[6], padx=5, pady=5)
+            control_ref_list.append(make_control_button)
+
+
+
+    def close_play(self):
+        # reshow root and end current game
+        root.deiconify()
+        self.play_box.destroy()
+
+
+# main_routine goes here
+if __name__ == "__main__":
+    root = Tk()
+    root.title("Colour Quest")
+    StartGame()
+    root.mainloop()
